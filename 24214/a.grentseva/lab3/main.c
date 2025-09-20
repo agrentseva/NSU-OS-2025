@@ -2,14 +2,10 @@
 #include <sys/types.h> 
 #include <unistd.h>
 
-void fileOpen(char* filename);
+void fileOpen(const char* filename);
 
-int main(int argc, char* argv[]){
-
-    if (argc != 2){
-        fprintf(stderr, "%s\n", "Enter the filename");
-        return 1;
-    }
+int main(){
+    const char* filename = "file.txt";
 
     uid_t real = getuid();
     uid_t effective = geteuid();
@@ -18,7 +14,8 @@ int main(int argc, char* argv[]){
     printf("Real user ID: %d\n", real);
     printf("Effective user ID: %d\n", effective);
 
-    fileOpen(argv[1]);
+    fileOpen(filename);
+
     if (setuid(getuid()) == -1){
         perror("Fail setuid");
         return 1;
@@ -31,11 +28,11 @@ int main(int argc, char* argv[]){
     printf("Real user ID: %d\n", real);
     printf("Effective user ID: %d\n", effective);
 
-    fileOpen(argv[1]);
+    fileOpen(filename);
     return 0;
 }
 
-void fileOpen(char* filename){
+void fileOpen(const char* filename){
     FILE* file;
     if (!(file = fopen(filename, "r"))){
         perror("Coudn't open file");
