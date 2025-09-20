@@ -2,7 +2,6 @@
 #include <sys/types.h> 
 #include <unistd.h>
 
-void printID();
 void fileOpen(char* filename);
 
 int main(int argc, char* argv[]){
@@ -20,10 +19,13 @@ int main(int argc, char* argv[]){
     printf("Effective user ID: %d\n", effective);
 
     fileOpen(argv[1]);
-    if (setuid(effective) == -1){
+    if (setuid(getuid()) == -1){
         perror("Fail setuid");
         return 1;
     }
+
+    real = getuid();
+    effective = geteuid();
 
     printf("With setuid:\n");
     printf("Real user ID: %d\n", real);
@@ -43,4 +45,6 @@ void fileOpen(char* filename){
         perror("Couldn't close file");
         return;
     }
+
+    printf("-------Open success-------\n");
 }
