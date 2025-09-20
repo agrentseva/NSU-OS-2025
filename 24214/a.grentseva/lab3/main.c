@@ -10,9 +10,11 @@ int main(){
     uid_t real = getuid();
     uid_t effective = geteuid();
 
+    printf("-------------------------\n");
     printf("Without setuid:\n");
     printf("Real user ID: %d\n", real);
     printf("Effective user ID: %d\n", effective);
+    printf("-------------------------\n");
 
     fileOpen(filename);
 
@@ -24,9 +26,11 @@ int main(){
     real = getuid();
     effective = geteuid();
 
+    printf("-------------------------\n");
     printf("With setuid:\n");
     printf("Real user ID: %d\n", real);
     printf("Effective user ID: %d\n", effective);
+    printf("-------------------------\n");
 
     fileOpen(filename);
     return 0;
