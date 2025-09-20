@@ -12,28 +12,25 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
+    uid_t real = getuid();
+    uid_t effective = geteuid();
+
     printf("Without setuid:\n");
-    printID();
+    printf("Real user ID: %d\n", real);
+    printf("Effective user ID: %d\n", effective);
 
     fileOpen(argv[1]);
-    if (setuid(geteuid()) == -1){
+    if (setuid(effective) == -1){
         perror("Fail setuid");
         return 1;
     }
 
     printf("With setuid:\n");
-    printID();
+    printf("Real user ID: %d\n", real);
+    printf("Effective user ID: %d\n", effective);
 
     fileOpen(argv[1]);
     return 0;
-}
-
-void printID(){
-    uid_t real = getuid();
-    uid_t effective = geteuid();
-
-    printf("Real user ID: %d\n", real);
-    printf("Effective user ID: %d\n", effective);
 }
 
 void fileOpen(char* filename){
